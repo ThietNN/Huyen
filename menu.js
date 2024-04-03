@@ -1,0 +1,1 @@
+window.getChildComponent('menu-item');

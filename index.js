@@ -1,14 +1,13 @@
+const childComponents = ['main', 'menu', 'contact'];
+
 document.addEventListener("DOMContentLoaded", function () {
-  getChildComponents('header');
-  getChildComponents('menu-item');
-  getChildComponents('feedback');
-  getChildComponents('footer');
-
-
-  getSlideTitle();
+  getChildComponent('header');
+  getChildComponent('footer');
+  getChildComponent(childComponents[0]);
 });
 
-function getChildComponents(id) {
+
+function getChildComponent(id) {
   var element = document.getElementById(`${id}-container`);
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
@@ -23,11 +22,25 @@ function getChildComponents(id) {
   xhttp.send();
 }
 
-const slideTitle = `<strong>Chào mừng quý khách đến với <br>Yamifood</strong></h1>`;
+function toggleContainer(id) {
+  var container = document.getElementById(`${id}-container`);
+  if (!container.innerHTML || container.innerHTML == '')
+    getChildComponent(id);
+  childComponents.forEach(item => {
+    if (item != id) {
+      var remove = document.getElementById(`${item}-container`);
+      remove.style.display = "none";
+    }
+  })
+  container.style.display = "block";
 
-function getSlideTitle() {
-  for (let index = 1; index <= 3; index++) {
-    var slideTitleDom = document.getElementById(`welcome-${index}`);
-    slideTitleDom.innerHTML = slideTitle
+  let slides = document.getElementById('slides')
+  if (id != childComponents[0]) {
+    slides.style.display = "none"
+  }
+  else {
+    slides.style.display = "block"
   }
 }
+window.toggleContainer = toggleContainer
+window.getChildComponent = getChildComponent
